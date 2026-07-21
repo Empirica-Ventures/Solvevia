@@ -1,0 +1,83 @@
+:root {
+  /* ── Brand palette (from Solvevia Brand Guidelines) ── */
+
+  /* Aztec / Gold — primary accent */
+  --gold-200: #F0D99A;
+  --gold-300: #E8C882;
+  --gold-400: #DCBA68;
+  --gold-500: #D1A454; /* "Aztec" — canonical brand gold */
+  --gold-600: #B88A3C;
+  --gold-700: #9A7030;
+  --gold-800: #7C5A24;
+
+  /* Charcoal family */
+  --black:        #292827; /* "Black" in brand palette */
+  --charcoal:     #3D3B38; /* "Charcoal" in brand palette — primary dark */
+  --dark-blue:    #3F424E; /* "Dark Blue" — secondary dark */
+  --soil:         #A89F8A; /* "Soil" — warm mid-tone */
+
+  /* Light family */
+  --beige:  #FAF8F5; /* "Beige" — primary light background */
+  --paper:  #FCF2DE; /* "Paper" — warm cream sections */
+  --grey:   #EBEAE9; /* "Grey" — subtle neutral */
+  --silver: #D8DCE0; /* "Silver" — cool light neutral */
+  --white:  #FFFFFF;
+
+  /* Secondary accents */
+  --sky: #89B4F5; /* "Sky" — informational blue */
+
+  /* ── Legacy / alias aliases (kept for existing component cards) ── */
+  --charcoal-950: #1A1917;
+  --charcoal-900: var(--black);
+  --charcoal-850: #322F2C;
+  --charcoal-800: var(--charcoal);
+  --charcoal-700: #4A4845;
+  --charcoal-600: var(--soil);
+  --charcoal-400: #8A8472;
+  --charcoal-200: var(--silver);
+  --charcoal-100: var(--grey);
+
+  --beige-50:  var(--beige);
+  --beige-100: var(--paper);
+  --beige-200: var(--grey);
+  --beige-300: var(--silver);
+  --beige-400: var(--soil);
+
+  /* ── Semantic — dark-surface defaults (for existing component cards) ── */
+  --surface-page:     var(--black);
+  --surface-elevated: var(--charcoal);
+  --surface-card:     #322F2C;
+  --surface-muted:    #4A4845;
+  --surface-light:    var(--beige);
+  --surface-light-muted: var(--paper);
+
+  --text-primary:    var(--beige);
+  --text-secondary:  var(--grey);
+  --text-muted:      var(--soil);
+  --text-disabled:   #6A6654;
+  --text-on-light:   var(--charcoal);
+  --text-on-accent:  var(--black);
+
+  --accent:           var(--gold-500);
+  --accent-hover:     var(--gold-400);
+  --accent-press:     var(--gold-600);
+  --accent-muted:     rgba(209, 164, 84, 0.14);
+  --accent-muted-hover: rgba(209, 164, 84, 0.22);
+
+  --border-subtle:    rgba(255, 255, 255, 0.06);
+  --border-default:   rgba(255, 255, 255, 0.11);
+  --border-strong:    rgba(255, 255, 255, 0.22);
+  --border-accent:    var(--gold-500);
+  --border-on-light:  rgba(0, 0, 0, 0.08);
+  --border-on-light-strong: rgba(0, 0, 0, 0.16);
+
+  /* ── Shadows (exact from Figma JSX) ── */
+  --shadow-button-gold: 0px 16px 8px 0px rgba(144,114,53,0.01), 0px 12px 6px 0px rgba(144,114,53,0.04), 0px 4px 4px 0px rgba(144,114,53,0.07), 0px 1.5px 3px 0px rgba(144,114,53,0.08), 0px 0px 0px 1px rgb(144,114,53), inset 0px 1px 2px 0px rgb(255,245,219); /* @kind shadow */
+  --shadow-card-dark: 0px 16px 8px 0px rgba(31,31,31,0.01), 0px 12px 6px 0px rgba(31,31,31,0.04), 0px 4px 4px 0px rgba(31,31,31,0.07), 0px 1.5px 3px 0px rgba(31,31,31,0.08), 0px 0px 0px 1px rgb(15,15,15), inset 0px 1px 2px 0px rgba(255,255,255,0.12); /* @kind shadow */
+
+  /* ── Status ── */
+  --status-compliant: #4D9C6E;
+  --status-pending:   var(--gold-500);
+  --status-gap:       #C0634A;
+  --status-info:      var(--sky);
+}

@@ -1,0 +1,7 @@
+/* Solvevia Design System — root stylesheet
+   This file is @import-only. Add no rules here directly. */
+
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/motion.css';
