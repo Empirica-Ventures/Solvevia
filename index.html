@@ -958,7 +958,8 @@
                   <label style="font-weight:var(--weight-semibold);font-size:12px;text-transform:uppercase;letter-spacing:var(--tracking-wider);color:var(--charcoal-700);display:block;" for="f-message">Most pressing need <span style="font-weight:var(--weight-regular);text-transform:none;letter-spacing:0;">(optional)</span></label>
                   <textarea id="f-message" placeholder="Tell us what you're working on..." rows="4" value="{{ formMessage }}" onChange="{{ onMessageChange }}" style="width:100%;padding:12px 14px;font-size:15px;color:var(--charcoal);background:var(--white);border:1px solid var(--grey);border-radius:0;outline:none;box-sizing:border-box;display:block;margin-top:6px;resize:vertical;"></textarea>
                 </div>
-                <div><x-import component-from-global-scope="SolveviaDesignSystem_762339.Button" variant="primary" onClick="{{ submitForm }}" hint-size="auto,48px">Send message</x-import></div>
+                <sc-if value="{{ sendError }}"><p style="color:#C0634A;font-size:13px;margin:0;">{{ sendError }}</p></sc-if>
+                <div><x-import component-from-global-scope="SolveviaDesignSystem_762339.Button" variant="primary" onClick="{{ submitForm }}" disabled="{{ sending }}" hint-size="auto,48px">{{ sendLabel }}</x-import></div>
               </div>
               </sc-if>
             </div>
@@ -1017,6 +1018,8 @@ class Component extends DCLogic {
     openWs: 0,
     form: { name: '', org: '', role: '', email: '', audience: '', message: '' },
     sent: false,
+    sending: false,
+    sendError: null,
   };
 
   getPage() {
@@ -1147,13 +1150,16 @@ class Component extends DCLogic {
       formMessage: this.state.form.message,
       sent: this.state.sent,
       notSent: !this.state.sent,
+      sending: this.state.sending,
+      sendError: this.state.sendError,
+      sendLabel: this.state.sending ? 'Sending…' : 'Send message',
       onNameChange: e => this.setState(s => ({ form: { ...s.form, name: e.target.value } })),
       onOrgChange: e => this.setState(s => ({ form: { ...s.form, org: e.target.value } })),
       onRoleChange: e => this.setState(s => ({ form: { ...s.form, role: e.target.value } })),
       onEmailChange: e => this.setState(s => ({ form: { ...s.form, email: e.target.value } })),
       onAudienceChange: e => this.setState(s => ({ form: { ...s.form, audience: e.target.value } })),
       onMessageChange: e => this.setState(s => ({ form: { ...s.form, message: e.target.value } })),
-      submitForm: () => {
+      submitForm: async () => {
         const f = this.state.form;
         if (!f.name.trim() || !f.email.trim()) { alert('Please fill in your name and email address.'); return; }
         const audienceLabels = {
@@ -1161,24 +1167,20 @@ class Component extends DCLogic {
           firm: 'Audit or advisory firm looking to build sustainability capability',
           other: 'Other',
         };
-        const subject = `New enquiry from ${f.name}${f.org ? ' (' + f.org + ')' : ''} — Solvevia website`;
-        const lines = [
-          'A new enquiry has been submitted through the Solvevia website contact form.',
-          '',
-          '---',
-          `Name: ${f.name}`,
-          `Organisation: ${f.org || '—'}`,
-          `Role / Title: ${f.role || '—'}`,
-          `Email: ${f.email}`,
-          `Describes them as: ${audienceLabels[f.audience] || '—'}`,
-          '---',
-          '',
-          'Most pressing need:',
-          f.message || '—',
-        ];
-        const body = lines.join('\n');
-        window.location.href = `mailto:muzzammil@solvevia.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        this.setState({ sent: true });
+        const payload = { ...f, audience: audienceLabels[f.audience] || f.audience };
+        this.setState({ sending: true, sendError: null });
+        try {
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok || !data.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+          this.setState({ sending: false, sent: true });
+        } catch (err) {
+          this.setState({ sending: false, sendError: (err && err.message) || 'Something went wrong. Please try again.' });
+        }
       },
     };
   }

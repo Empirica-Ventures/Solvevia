@@ -1,0 +1,12 @@
+{
+  "name": "solvevia-pk-website",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static Solvevia PK site (Claude Design export) + Vercel serverless contact-form backend.",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.16"
+  }
+}
